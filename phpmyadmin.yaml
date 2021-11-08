@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pma
+  labels:
+    app: wordpress
+spec:
+  # type: NodePort  
+  ports:
+    - protocol: TCP
+      port: 9000
+      nodePort: 30000
+      # targetPort: 8080
+  selector:
+    app: wordpress
+    tier: pma # clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-pma
+  labels:
+    app: wordpress
+spec:
+  selector:
+    matchLabels:
+      app: wordpress
+      tier: pma
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wordpress
+        tier: pma
+    spec:
+      containers:
+        image: phpmyadmin:fpm-alpine
+        name: pma
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        - name: PMA_HOST 
+          value: wordpress-mysql
+          # valueFrom: 
+          #   configMapKeyRef:
+          #     name: pma-configmap
+          #     key: database_url
+        ports:
+        - containerPort: 9000
+          name: pma

@@ -5,7 +5,7 @@ metadata:
   labels:
     app: wordpress
 spec:
-  # type: NodePort  
+  type: NodePort  
   ports:
     - protocol: TCP
       port: 9000
@@ -35,8 +35,9 @@ spec:
         tier: pma
     spec:
       containers:
-        image: phpmyadmin:fpm-alpine
+      - image: phpimage #phpmyadmin:fpm-alpine
         name: pma
+        imagePullPolicy: Always
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
@@ -51,4 +52,4 @@ spec:
           #     key: database_url
         ports:
         - containerPort: 9000
-          name: pma
+          name: pmaa

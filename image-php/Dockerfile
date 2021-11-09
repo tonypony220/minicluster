@@ -15,16 +15,25 @@ ENV VERSION 5.1.1
 ENV URL https://files.phpmyadmin.net/phpMyAdmin/${VERSION}/phpMyAdmin-${VERSION}-all-languages.tar.xz
 # LABEL version=$VERSION
 
+# https://wiki.alpinelinux.org/wiki/PhpMyAdmin#Installing_phpMyAdmin
+
 ADD $URL .
  RUN \
  	tar -xf phpMyAdmin-${VERSION}-all-languages.tar.xz -C /var/www/html --strip-components=1; \
  	rm phpMyAdmin-${VERSION}-all-languages.tar.xz; \
- 	sed -i "s@define('CONFIG_DIR'.*@define('CONFIG_DIR', '/etc/phpmyadmin/');@" /var/www/html/libraries/vendor_config.php;
+ 	sed -i "s@define('CONFIG_DIR'.*@define('CONFIG_DIR', '/etc/phpmyadmin/');@" /var/www/html/libraries/vendor_config.php; \
+	mkdir -p /sessions; \
+	chown -R nobody:nginx /var/www/html /sessions;
+
 
 COPY config.inc.php /etc/phpmyadmin/config.inc.php
 COPY php-fpm.conf 	/etc/php7/php-fpm.d/www.conf 
 COPY php.ini 		/etc/php7/php.ini
 COPY nginx.conf 	/etc/nginx/nginx.conf
-# ENTRYPOINT ["nginx", "-g", "daemon off;", ";", "php-fpm7"]
+COPY fpm-start.sh 	/
+# /fpm-start.sh
+ENTRYPOINT ["sh", "./fpm-start.sh"]
+# CMD ["php-fpm7", ";", "nginx", "-g", "daemon off;"]
 # CMD ["php-fpm7"]
-CMD ["tail", "-f", "/dev/null"]
+EXPOSE 8080
+# CMD ["tail", "-f", "/dev/null"]

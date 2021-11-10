@@ -35,9 +35,9 @@ spec:
         tier: pma
     spec:
       containers:
-      - image: phpimage #phpmyadmin:fpm-alpine
+      - image: img_pma #phpmyadmin:fpm-alpine
         name: pma
-        imagePullPolicy: Always
+        imagePullPolicy: Never
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:

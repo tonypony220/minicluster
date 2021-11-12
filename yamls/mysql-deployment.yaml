@@ -6,11 +6,20 @@ metadata:
     app: wordpress
 spec:
   ports:
-    - port: 3306
+    - port: 80
+      targetPort: 3306
   selector:
     app: wordpress
     tier: mysql
   clusterIP: None
+---
+apiVersion: v1
+kind: Secret
+metadata:
+    name: mysql-pass
+type: Opaque
+data:
+    password: cGFzc3dvcmQ=
 # ---
 # apiVersion: v1
 # kind: PersistentVolume

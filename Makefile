@@ -1,14 +1,4 @@
-clean: 
-	docker rm -f $(docker ps -aq)
-	# docker run -name container -p 8080:80 -v $(pwd):/usr/share/nginx/html nginx
-	# docker run -name container -p 8080:80 -v $(pwd):/usr/share/nginx/html:ro nginx << READOBLY
-#
-# all: ${NAME}
+# https://stackoverflow.com/questions/52310599/what-does-minikube-docker-env-mean
+env: 
+	eval $$(minikube docker-env)	
 
-# clean:
-# 	rm -f $(OBJS)
-
-# fclean:	clean
-# 	rm -f $(NAME)
-
-# re:		fclean all

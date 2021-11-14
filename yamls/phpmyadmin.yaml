@@ -8,9 +8,9 @@ spec:
   type: NodePort  
   ports:
     - protocol: TCP
-      port: 9000
+      port: 5000
       nodePort: 30000
-      # targetPort: 8080
+      targetPort: 80
   selector:
     app: wordpress
     tier: pma # clusterIP: None
@@ -35,9 +35,9 @@ spec:
         tier: pma
     spec:
       containers:
-      - image: img_pma #phpmyadmin:fpm-alpine
+      - image: img_pma_orig #phpmyadmin:fpm-alpine #
         name: pma
-        imagePullPolicy: Never
+        imagePullPolicy: Never #IfNotPresent 
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
@@ -51,5 +51,5 @@ spec:
           #     name: pma-configmap
           #     key: database_url
         ports:
-        - containerPort: 9000
+        - containerPort: 80
           name: pmaa

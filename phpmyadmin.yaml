@@ -13,7 +13,8 @@ spec:
       targetPort: 80
   selector:
     app: wordpress
-    tier: pma # clusterIP: None
+    tier: pma
+    # clusterIP: None
 ---
 apiVersion: apps/v1
 kind: Deployment

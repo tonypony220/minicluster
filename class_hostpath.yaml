@@ -4,5 +4,6 @@ metadata:
   name: hostpath
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
-provisioner: hostpath
+provisioner: k8s.io/minikube-hostpath 
+reclaimPolicy: Delete
 

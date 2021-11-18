@@ -9,6 +9,7 @@ spec:
   - protocol: "TCP"
     port: 80
     targetPort: 80
+    nodePort: 30099
   type: LoadBalancer
 ---
 apiVersion: apps/v1
@@ -29,15 +30,17 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:alpine
+        image: img_nginx #nginx:alpine 
+        imagePullPolicy: Never #IfNotPresent 
         # ports:
         # - containerPort: 8080
         #
         volumeMounts:
           - name: conf 
-            mountPath: /etc/nginx/nginx.conf  
+            mountPath: /etc/nginx/nginx.conf
+            # https://stackoverflow.com/questions/33415913/whats-the-best-way-to-share-mount-one-file-into-a-pod
             subPath: nginx.conf
-            # readOnly: true
+            readOnly: true # it always read only. didn't figured out what this option for
       volumes:  # those volumes may be not here. Now these volumes mounts above in container
         - name: conf
           configMap:
@@ -52,34 +55,36 @@ data:
     events {
         worker_connections  1024;
     }
+    error_log  /dev/stdout info;
 
     http {
+        access_log /dev/stdout;
         # The identifier Backend is internal to nginx, and used to name this specific upstream
         upstream Backend {
         # hello is the internal DNS name used by the backend Service inside Kubernetes
-            server pma;
+            server pma:5000;
         }
         upstream WP {
-        # hello is the internal DNS name used by the backend Service inside Kubernetes
-            server wordpress;
+            server wordpress:5050;
         }
-        
         server {
             listen 80;
-
-            location / {
-                include fastcgi_params;
-                fastcgi_pass WP;
-                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-            }
-        
-            location /phpmyadmin {
+            # root /var/www/html/;
+            # index index.php index.html index.htm;
+            # location / {
+            # }
+            location /phpmyadmin { #phpmyadmin {
                 # The following statement will proxy traffic to the upstream named Backend
+                # https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
+                # proxy_set_header Host $host;
+                # proxy_redirect off;
                 proxy_pass http://Backend;
             }
             location ^~ /wordpress {
-                include fastcgi_params;
-                fastcgi_pass WP;
+                # return 307 http://WP$request_uri;
+                # proxy_set_header Host $host;
+                # proxy_redirect off;
+                proxy_pass http://WP;
                 # fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             }
         }

@@ -17,4 +17,4 @@ fi
 
 php-fpm7
 
-exec "$@"
+exec "$@"  # runs commad passed as arg

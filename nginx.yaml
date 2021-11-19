@@ -9,7 +9,7 @@ spec:
   - protocol: "TCP"
     port: 80
     targetPort: 80
-    nodePort: 30099
+    # nodePort: 30099
   type: LoadBalancer
 ---
 apiVersion: apps/v1
@@ -64,28 +64,32 @@ data:
         # hello is the internal DNS name used by the backend Service inside Kubernetes
             server pma:5000;
         }
-        upstream WP {
-            server wordpress:5050;
-        }
+        # upstream WP {
+        #     server wordpress:30033;
+        # }
         server {
             listen 80;
             # root /var/www/html/;
             # index index.php index.html index.htm;
             # location / {
             # }
-            location /phpmyadmin { #phpmyadmin {
-                # The following statement will proxy traffic to the upstream named Backend
-                # https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
-                # proxy_set_header Host $host;
-                # proxy_redirect off;
+            location /phpmyadmin {
+                #: https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
+                #: https://gist.github.com/soheilhy/8b94347ff8336d971ad0
+                rewrite ^/phpmyadmin(.*) /$1 break;
                 proxy_pass http://Backend;
             }
-            location ^~ /wordpress {
-                # return 307 http://WP$request_uri;
+            #: wp make redirects by itself and it's not clear how to proxy it
+            location /wordpress {
+                server wordpress;
+                # rewrite ^/wordpress(.*) /$1 break;
+                return 307 http://wordpress:5050;
                 # proxy_set_header Host $host;
-                # proxy_redirect off;
-                proxy_pass http://WP;
+                # rewrite ^/wordpress(.*) /$1 break;
+                # proxy_pass http://WP;
                 # fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
             }
         }
+
     }

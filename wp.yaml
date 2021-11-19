@@ -9,11 +9,11 @@ spec:
     - protocol: TCP
       port: 5050
       targetPort: 80
-      # nodePort: 30023
+      # nodePort: 30033
   selector:
     app: wordpress
     tier: frontend
-  # type: NodePort
+  type: LoadBalancer
 # ---
 # apiVersion: v1
 # kind: PersistentVolumeClaim

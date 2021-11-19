@@ -6,11 +6,17 @@
 # EACH TERMINAL USED WITH MINIKUBE SHOULD ALWAYS BE UP TO DATE DOCKER -ENV !!!!!!!!!!!!!!!! fuck i spent on it 3 days
 all:
 	eval $$(minikube docker-env)	
-	cd ~/coding/services/images/mysql && $(MAKE) b
-	cd ~/coding/services/images/nginx && $(MAKE) b
-	cd ~/coding/services/images/mysql && $(MAKE) b
+	cd ~/coding/services/images/mysql 	 && $(MAKE) b
+	cd ~/coding/services/images/nginx 	 && $(MAKE) b
+	cd ~/coding/services/images/wp    	 && $(MAKE) b
 	cd ~/coding/services/images/pma/orig && $(MAKE) b
-	kube apply -f phpmyadmin.yaml
+
+apply: 
+	kubectl apply -f phpmyadmin.yaml
+	kubectl apply -f wp.yaml
+	kubectl apply -f mysql.yaml
+	kubectl apply -f nginx.yaml
+
 cl:
 	eval $$(minikube docker-env)	
 	docker rmi -f $$(docker images --filter "dangling=true" -q) # deleting all images with <none> tag

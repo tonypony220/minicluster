@@ -1,0 +1,16 @@
+#https://github.com/ankitd009/diy/tree/master/kube/influxdb
+# kube get secret influxdb-creds -o yaml > influxdb.yaml
+apiVersion: v1
+data:
+  INFLUXDB_DATABASE: bG9jYWxfbW9uaXRvcmluZw==
+  INFLUXDB_HOST: aW5mbHV4ZGI=
+  INFLUXDB_PASSWORD: cm9vdDEyMzQ=
+  INFLUXDB_USERNAME: cm9vdA==
+kind: Secret
+metadata:
+  creationTimestamp: "2021-11-19T19:56:26Z"
+  name: influxdb-creds
+  namespace: default
+  resourceVersion: "38107"
+  uid: 147e5a50-cd31-44da-8779-7cd6c2c13e7c
+type: Opaque

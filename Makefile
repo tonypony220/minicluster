@@ -18,6 +18,9 @@ apply:
 	kubectl apply -f mysql.yaml
 	kubectl apply -f nginx.yaml
 	kubectl apply -f metallb.yaml
+	kubectl apply -f influx.yaml
+	# https://grafana.com/docs/grafana/latest/administration/provisioning/
+	kubectl apply -f grafana.yaml
 	# see what changes would be made, returns nonzero returncode if different
 	kubectl get configmap kube-proxy -n kube-system -o yaml | \
 	sed -e "s/strictARP: false/strictARP: true/" | \

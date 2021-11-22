@@ -8,7 +8,7 @@ rmp:
 b: 
 	docker build -t ${img} .
 run:
-	docker run -p 3000:80 -dt -e INFLUX_URL=127.0.0.1:8086 ${img} # PMA_HOST=localhost
+	docker run -p 80:3000 -dt -e INFLUX_URL=127.0.0.1:8086 ${img} # PMA_HOST=localhost
 runi:
 	docker run -it --entrypoint /bin/bash -p 3000:80 -dt -e INFLUX_URL=127.0.0.1:8086 ${img} # PMA_HOST=localhost
 ex: 

@@ -2,15 +2,78 @@
 # kube get secret influxdb-creds -o yaml > influxdb.yaml
 apiVersion: v1
 data:
-  INFLUXDB_DATABASE: bG9jYWxfbW9uaXRvcmluZw==
-  INFLUXDB_HOST: aW5mbHV4ZGI=
-  INFLUXDB_PASSWORD: cm9vdDEyMzQ=
-  INFLUXDB_USERNAME: cm9vdA==
+  INFLUXDB_ADMIN_PASSWORD: cGFzcwo=
+  INFLUXDB_ADMIN_USER: YWRtaW4K
 kind: Secret
 metadata:
-  creationTimestamp: "2021-11-19T19:56:26Z"
   name: influxdb-creds
-  namespace: default
-  resourceVersion: "38107"
-  uid: 147e5a50-cd31-44da-8779-7cd6c2c13e7c
+  # namespace: default
+  # resourceVersion: "38107"
+  # uid: 147e5a50-cd31-44da-8779-7cd6c2c13e7c
 type: Opaque
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: influxdb-deployment
+  labels:
+    app: influxdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: influxdb
+  template:
+    metadata:
+      labels:
+        app: influxdb
+    spec:
+      volumes:
+      - name: var-lib-influxdb
+        persistentVolumeClaim:
+          claimName: influxdb-pvc
+      containers:
+      - name: influxdb
+        image: img_influxdb
+        imagePullPolicy: IfNotPresent 
+        ports:
+        - containerPort: 8086  # exposed port of image gets from docker hub of image
+        env:
+        - name: INFLUXDB_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: influxdb-creds
+              key: INFLUXDB_ADMIN_PASSWORD
+        - name: INFLUXDB_ADMIN_USER
+          valueFrom:
+            secretKeyRef:
+              name: influxdb-creds
+              key: INFLUXDB_ADMIN_USER
+        volumeMounts:
+        - mountPath: /var/lib/influxdb
+          name: var-lib-influxdb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: influx
+spec:
+  selector:
+    app: influxdb
+  ports:
+    - protocol: TCP
+      port: 8086
+      targetPort: 8086 # can't be different
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: influxdb
+  name: influxdb-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi

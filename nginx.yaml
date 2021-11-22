@@ -32,6 +32,9 @@ spec:
       - name: nginx
         image: img_nginx #nginx:alpine 
         imagePullPolicy: Never #IfNotPresent 
+        env:
+        - name: INFLUX_URL
+          value: influx
         # ports:
         # - containerPort: 8080
         #
@@ -81,7 +84,6 @@ data:
             }
             #: wp make redirects by itself and it's not clear how to proxy it
             location /wordpress {
-                server wordpress;
                 # rewrite ^/wordpress(.*) /$1 break;
                 return 307 http://wordpress:5050;
                 # proxy_set_header Host $host;

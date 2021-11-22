@@ -60,7 +60,7 @@ spec:
               name: mysql-pass
               key: password
         - name: WORDPRESS_DB_NAME
-          valueFrom: 
+          valueFrom:
             configMapKeyRef:
               name: db-configmap
               key: db_name

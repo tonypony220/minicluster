@@ -12,6 +12,7 @@ all:
 	cd ~/coding/services/images/pma/orig && $(MAKE) b
 
 apply: 
+	kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
 	kubectl apply -f phpmyadmin.yaml
 	kubectl apply -f wp.yaml
 	kubectl apply -f mysql.yaml

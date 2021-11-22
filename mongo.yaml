@@ -1,45 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb-deployment
+  name: influxdb-deployment
   labels:
-    app: mongodb
+    app: influxdb
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mongodb
+      app: influxdb
   template:
     metadata:
       labels:
-        app: mongodb
+        app: influxdb
     spec:
       containers:
-      - name: mongodb
-        image: mongo
+      - name: influxdb
+        image: img_influxdb
         ports:
-        - containerPort: 27017  # exposed port of image gets from docker hub of image
+        - containerPort: 8086  # exposed port of image gets from docker hub of image
         env:
-        - name: MONGO_INITDB_ROOT_USERNAME # this env also 
+        - name: INFLUX # this env also 
           valueFrom:
             secretKeyRef:
-              name: mongodb-secret
-              key: mongo-root-username
-        - name: MONGO_INITDB_ROOT_PASSWORD # this env also 
-          valueFrom: 
-            secretKeyRef:
-              name: mongodb-secret
-              key: mongo-root-password
+              name: influxdb-secret
+              key: influx-root-username
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb-service
+  name: influx
 spec:
   selector:
-    app: mongodb
+    app: influxdb
   ports:
     - protocol: TCP
-      port: 27017
-      targetPort: 27017 # can't be different
+      port: 8086
+      targetPort: 8086 # can't be different
 

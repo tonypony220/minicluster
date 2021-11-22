@@ -12,9 +12,22 @@ RUN apk update && \
 
 # ADD start.sh .
 
+ENV TELEGRAF_VERSION 1.19.3
+ADD https://dl.influxdata.com/telegraf/releases/telegraf-${TELEGRAF_VERSION}_static_linux_amd64.tar.gz .
+RUN mkdir -p /usr/src /etc/telegraf && \
+    tar -C /usr/src -xzf telegraf-${TELEGRAF_VERSION}_static_linux_amd64.tar.gz && \
+    mv /usr/src/telegraf*/etc/telegraf/telegraf.conf /etc/telegraf/ && \
+    mkdir /etc/telegraf/telegraf.d && \
+    cp -a /usr/src/telegraf*/usr/bin/telegraf /usr/bin/ && \
+    rm -rf *.tar.gz* /usr/src
+
+RUN telegraf --input-filter cpu:mem:net:nginx --output-filter influxdb config > /etc/telegraf/telegraf.conf; \
+	sed -i 's*\# urls = \["http://127.0.0.1:8086"\]*urls = ["http://${INFLUX_URL}:8086"]*g' /etc/telegraf/telegraf.conf
+
 EXPOSE 80
 EXPOSE 443
+COPY start.sh start.sh
 # CMD ["/bin/sh", "-c", "/usr/sbin/php-fpm7; exec nginx -g 'daemon off;';"]
-# CMD ["./start.sh"]
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["./start.sh"]
+# CMD ["nginx", "-g", "daemon off;"]
 

@@ -16,7 +16,9 @@ apply:
 	kubectl apply -f phpmyadmin.yaml
 	kubectl apply -f wp.yaml
 	kubectl apply -f mysql.yaml
-	kubectl apply -f nginx.yaml
+	export EXTERNAL_IP=$(kubectl get services wordpress --output jsonpath='{.status.loadBalancer.ingress[0].ip}') # for redirection in nginx conf
+	envsubst <  nginx.yaml | kube apply -f - # https://skofgar.ch/dev/2020/08/how-to-quickly-replace-environment-variables-in-a-file/
+	# kubectl apply -f nginx.yaml
 	kubectl apply -f metallb.yaml
 	kubectl apply -f influx.yaml
 	# https://grafana.com/docs/grafana/latest/administration/provisioning/
@@ -29,6 +31,8 @@ apply:
 	kubectl get configmap kube-proxy -n kube-system -o yaml | \
 	sed -e "s/strictARP: false/strictARP: true/" | \
 	kubectl apply -f - -n kube-system
+
+	# kubectl get services wordpress --output jsonpath='{.status.loadBalancer.ingress[0].ip}'
 
 cl:
 	eval $$(minikube docker-env)	

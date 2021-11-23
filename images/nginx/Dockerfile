@@ -2,7 +2,7 @@ FROM alpine:3.14
 
 
 RUN apk update && \
-    apk add nginx busybox-extras;
+    apk add nginx busybox-extras envsubst;
 	# touch /var/log/nginx/access.log ; \
 	# touch /var/log/nginx/error.log ; \
 	# ln -sf 	  /dev/stdout /var/log/nginx/access.log \

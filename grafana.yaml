@@ -4,6 +4,9 @@ metadata:
   name: grafana
   labels:
     app: grafana
+  annotations:
+    metallb.universe.tf/address-pool: default
+    metallb.universe.tf/allow-shared-ip: "web-server-svc"
 spec:
   ports:
     - protocol: TCP

@@ -13,7 +13,7 @@ ENV PATH=/usr/share/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bi
     GF_PATHS_HOME="/usr/share/grafana" \
     GF_PATHS_LOGS="/var/log/grafana" \
     GF_PATHS_PLUGINS="/var/lib/grafana/plugins" \
-    GF_PATHS_PROVISIONING="/etc/grafana/povisioning"
+    GF_PATHS_PROVISIONING="/etc/grafana/provisioning"
 
 WORKDIR $GF_PATHS_HOME    
 
@@ -34,6 +34,8 @@ RUN mkdir -p "$GF_PATHS_HOME/.aws" \
     && chmod -R 777 "$GF_PATHS_DATA" "$GF_PATHS_HOME/.aws" "$GF_PATHS_LOGS" "$GF_PATHS_PLUGINS" "$GF_PATHS_PROVISIONING"
 
 COPY grafana.ini "$GF_PATHS_CONFIG"
+COPY datasource.yaml "$GF_PATHS_PROVISIONING"/datasources
+# COPY d.yaml "$GF_PATHS_PROVISIONING"/datasources
 COPY ./run.sh /run.sh
 
 EXPOSE 3000

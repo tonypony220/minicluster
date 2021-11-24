@@ -15,6 +15,7 @@ if [ ! -f /etc/phpmyadmin/config.user.inc.php ]; then
     touch /etc/phpmyadmin/config.user.inc.php
 fi
 
+telegraf&
 php-fpm7
 
 exec "$@"  # runs commad passed as arg

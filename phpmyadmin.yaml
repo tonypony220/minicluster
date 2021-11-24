@@ -27,6 +27,7 @@ metadata:
   labels:
     app: wordpress
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: wordpress
@@ -44,6 +45,8 @@ spec:
         name: pma
         imagePullPolicy: Never #IfNotPresent 
         env:
+        - name: INFLUX_URL
+          value: influx
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:

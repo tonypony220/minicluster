@@ -10,5 +10,6 @@ sed s/localhost/${WORDPRESS_DB_HOST}/ > wp-config.php
 # chmod -R 755 .;
 
 php-fpm7
+telegraf&
 nginx -g 'daemon off;'
 # tail -f /dev/null

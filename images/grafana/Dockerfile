@@ -35,6 +35,9 @@ RUN mkdir -p "$GF_PATHS_HOME/.aws" \
 
 COPY grafana.ini "$GF_PATHS_CONFIG"
 COPY datasource.yaml "$GF_PATHS_PROVISIONING"/datasources
+COPY dashboards.yaml "$GF_PATHS_PROVISIONING"/dashboards
+#set it in dashboards.yaml
+COPY dashboards "$GF_PATHS_DATA"/dashboards 
 # COPY d.yaml "$GF_PATHS_PROVISIONING"/datasources
 COPY ./run.sh /run.sh
 

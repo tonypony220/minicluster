@@ -55,6 +55,8 @@ spec:
         imagePullPolicy: Never #IfNotPresent 
         name: wordpress
         env:
+        - name: INFLUX_URL
+          value: influx
         - name: WORDPRESS_DB_HOST
           value: wordpress-mysql
         - name: WORDPRESS_DB_PASSWORD

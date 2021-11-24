@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  annotations:
+    metallb.universe.tf/address-pool: default # this is name of config in metallb
+    metallb.universe.tf/allow-shared-ip: "web-server-svc" # https://metallb.universe.tf/usage/#ip-address-sharing
+spec:
+  selector:
+    app: nginx
+  ports:
+  - protocol: "TCP"
+    port: 2001
+    targetPort: 80
+    # nodePort: 30099
+  externalTrafficPolicy: Cluster # this is default so not spec in other pods
+  type: LoadBalancer
+  # loadBalancerIP: 127.0.0.1 #192.168.1.239 #GiveIPAddress
+  # clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment #StatefulSet #
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  # serviceName: "nginx" # for statefull
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: img_nginx #nginx:alpine 
+        imagePullPolicy: Never #IfNotPresent 
+        env:
+        - name: INFLUX_URL
+          value: influx
+        # ports:
+        # - containerPort: 8080
+        #
+        volumeMounts:
+          - name: conf 
+            mountPath: /etc/nginx/nginx.conf
+            # https://stackoverflow.com/questions/33415913/whats-the-best-way-to-share-mount-one-file-into-a-pod
+            subPath: nginx.conf
+            readOnly: true # it always read only. didn't figured out what this option for
+      volumes:  # those volumes may be not here. Now these volumes mounts above in container
+        - name: conf
+          configMap:
+            name: nginx-config-file
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config-file
+data:
+  nginx.conf: |
+    events {
+        worker_connections  1024;
+    }
+    error_log  /dev/stdout info;
+
+    http {
+        access_log /dev/stdout;
+        # The identifier Backend is internal to nginx, and used to name this specific upstream
+        upstream Backend {
+        # hello is the internal DNS name used by the backend Service inside Kubernetes
+            server pma:5000;
+        }
+        # upstream WP {
+        #     server wordpress:30033;
+        # }
+        server {
+            listen 80;
+            # root /var/www/html/;
+            # index index.php index.html index.htm;
+            # location / {
+            # }
+            location /phpmyadmin {
+                #: https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
+                #: https://gist.github.com/soheilhy/8b94347ff8336d971ad0
+                rewrite ^/phpmyadmin(.*) /$1 break;
+                proxy_pass http://Backend;
+            }
+            #: wp make redirects by itself and it's not clear how to proxy it
+            server_name wordpress;
+            resolver kube-dns.kube-system.svc.cluster.local valid=10s;
+            set $backend http://wordpress:5050; #$uri$is_args$args;
+            location /wp {
+                # rewrite ^/wordpress(.*) /$1 break;
+                return 307 $backend;
+                # return 307 $EXTERNAL_IP
+                # proxy_set_header Host $host;
+                # rewrite ^/wordpress(.*) /$1 break;
+                # proxy_pass http://WP;
+                # fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+            }
+        }
+
+    }

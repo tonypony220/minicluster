@@ -11,5 +11,6 @@ sed s/localhost/${WORDPRESS_DB_HOST}/ > wp-config.php
 
 php-fpm7
 telegraf&
-nginx -g 'daemon off;'
+nginx # -g 'daemon off;'
+wait -n 
 # tail -f /dev/null

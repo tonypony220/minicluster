@@ -7,7 +7,7 @@ del:
 b: 
 	docker build -t ${img} .
 run:
-	docker run -p 8081:80 -dt ${img} # PMA_HOST=localhost
+	docker run -p 8082:80 -dt ${img} # PMA_HOST=localhost
 ex: 
 	docker exec -it $$(docker ps | grep ${img} | cut -c1-12) /bin/sh
 re: del b run ex

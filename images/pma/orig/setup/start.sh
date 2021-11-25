@@ -17,5 +17,6 @@ fi
 
 telegraf&
 php-fpm7
-
-exec "$@"  # runs commad passed as arg
+nginx
+wait -n 
+# exec "$@"  # runs commad passed as arg

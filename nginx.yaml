@@ -25,7 +25,7 @@ metadata:
   labels:
     app: nginx
 spec:
-  replicas: 3
+  replicas: 1
   # serviceName: "nginx" # for statefull
   selector:
     matchLabels:
@@ -37,10 +37,12 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: img_nginx #nginx:alpine 
-        imagePullPolicy: Never #IfNotPresent 
+        image: img_nginx #nginx:alpine
+        imagePullPolicy: Never #IfNotPresent
         env:
         - name: INFLUX_URL
           value: influx
-         ports:
-         - containerPort: 80
+        - name: EXTERNAL_IP
+          value: $EXTERNAL_IP
+        ports:
+        - containerPort: 80

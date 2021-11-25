@@ -64,7 +64,7 @@ RUN telegraf --input-filter cpu:mem:net --output-filter influxdb config > /etc/t
 
 EXPOSE 80
 ENTRYPOINT ["/config/start.sh"]
-CMD ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;"]
 
 ## Health Check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \

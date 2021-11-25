@@ -2,7 +2,7 @@ FROM alpine:3.14
 
 
 RUN apk update && \
-    apk add nginx && \
+    apk add nginx curl && \
     # apk add php7-fpm && \
     # apk add php7-mysqli; \
     apk add gnupg nginx php7-fpm php7-common php7-iconv php7-json php7-gd \
@@ -41,3 +41,4 @@ EXPOSE 80
 # CMD ["/bin/sh", "-c", "/usr/sbin/php-fpm7; exec nginx -g 'daemon off;';"]
 CMD ["./start.sh"]
 
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s CMD curl -f http://127.0.0.1/ || exit 1

@@ -21,10 +21,11 @@ RUN mkdir -p /usr/src /etc/telegraf && \
     cp -a /usr/src/telegraf*/usr/bin/telegraf /usr/bin/ && \
     rm -rf *.tar.gz* /usr/src
 
-RUN telegraf --input-filter cpu:mem:net:nginx --output-filter influxdb config > /etc/telegraf/telegraf.conf; \
+RUN telegraf --input-filter cpu:mem:net --output-filter influxdb config > /etc/telegraf/telegraf.conf; \
 	sed -i 's*\# urls = \["http://127.0.0.1:8086"\]*urls = ["http://${INFLUX_URL}:8086"]*g' /etc/telegraf/telegraf.conf
 
-# ADD nginx.conf /etc/nginx/http.d/default.conf
+ADD nginx.conf /etc/nginx/http.d/default.conf
+
 EXPOSE 80
 EXPOSE 443
 COPY start.sh start.sh

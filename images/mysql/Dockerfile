@@ -21,3 +21,4 @@ EXPOSE 3306
 
 ENTRYPOINT [ "./start.sh" ]
 
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s CMD mysqladmin ping -h localhost || exit 1

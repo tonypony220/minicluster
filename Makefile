@@ -35,7 +35,7 @@ apply:
 	# kubectl get services wordpress --output jsonpath='{.status.loadBalancer.ingress[0].ip}'
 
 cl:
-	eval $$(minikube docker-env)	
+	# eval $$(minikube docker-env)	
 	docker rmi -f $$(docker images --filter "dangling=true" -q) # deleting all images with <none> tag
 cls: 
 	kubectl get storageclass

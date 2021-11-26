@@ -16,7 +16,3 @@ ex:
 re: del b run ex
 re: del b runi
 
-#https://stackoverflow.com/questions/41322541/rebuild-docker-container-on-file-changes
-
-# docker inspect $(docker ps -aq) | grep '"IPAddress"' | head -n 1
-# https://stackoverflow.com/questions/41322541/rebuild-docker-container-on-file-changes

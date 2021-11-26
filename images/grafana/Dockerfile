@@ -6,6 +6,7 @@ RUN mkdir /tmp/grafana \
   	&& tar xfz /tmp/grafana-${GRAFANA_VERSION}.linux-amd64.tar.gz --strip-components=1 -C /tmp/grafana \
   	&& rm /tmp/grafana-${GRAFANA_VERSION}.linux-amd64.tar.gz 
 
+# https://tkit.dev/2018/03/30/how-to-use-where-like-clause-in-influxdb/
 
 ENV PATH=/usr/share/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
     GF_PATHS_CONFIG="/etc/grafana/grafana.ini" \
@@ -20,7 +21,7 @@ WORKDIR $GF_PATHS_HOME
 RUN set -ex \
     && addgroup -S grafana \
     && adduser -S -G grafana grafana \
-    && apk add --no-cache libc6-compat ca-certificates su-exec bash \
+    && apk add --no-cache libc6-compat ca-certificates su-exec bash curl \
 	&& cp -TR /tmp/grafana "$GF_PATHS_HOME"
 
 RUN mkdir -p "$GF_PATHS_HOME/.aws" \
@@ -44,3 +45,5 @@ COPY ./run.sh /run.sh
 EXPOSE 3000
 
 CMD ["/run.sh"]
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s CMD curl -f localhost:3000/api/health || exit 1

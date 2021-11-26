@@ -102,6 +102,8 @@ spec:
             configMapKeyRef:
               name: db-configmap
               key: db_pass
+        - name: INFLUX_URL
+          value: influx
         ports:
         - containerPort: 3306
           name: mysql

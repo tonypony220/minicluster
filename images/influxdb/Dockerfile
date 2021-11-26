@@ -8,7 +8,7 @@ ENV INFLUXDB_VERSION 1.7.11
 ENV INFLUXDB_DB telegraf
 
 # Installing packages
-RUN apk add --no-cache su-exec bash
+RUN apk add --no-cache su-exec bash curl
 
 # Work path
 # WORKDIR /scripts
@@ -51,3 +51,5 @@ COPY init.sh /init-influxdb.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["influxd"]
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s CMD curl -f http://127.0.0.1:8086 || exit 1

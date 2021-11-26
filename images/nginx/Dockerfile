@@ -2,7 +2,7 @@ FROM alpine:3.14
 
 
 RUN apk update && \
-    apk add nginx busybox-extras;
+    apk add nginx busybox-extras curl;
 	# touch /var/log/nginx/access.log ; \
 	# touch /var/log/nginx/error.log ; \
 	# ln -sf 	  /dev/stdout /var/log/nginx/access.log \
@@ -33,3 +33,4 @@ COPY start.sh start.sh
 CMD ["./start.sh"]
 # CMD ["nginx", "-g", "daemon off;"]
 
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s CMD curl -f http://127.0.0.1/ || exit 1

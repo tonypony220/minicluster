@@ -72,6 +72,7 @@ echo "[i] Sleeping 5 sec"
 sleep 5
 
 echo "Starting all process"
+telegraf&
 exec /usr/bin/mysqld --user=mysql --console
 # tail -f /dev/null
 

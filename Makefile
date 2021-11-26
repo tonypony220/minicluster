@@ -40,6 +40,8 @@ cl:
 cls: 
 	kubectl get storageclass
 
+#: inspecting health of process 
+# docker inspect --format='{{json .State.Health}}' container_name
 
 
 

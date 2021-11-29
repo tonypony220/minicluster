@@ -42,6 +42,18 @@ COPY dashboards "$GF_PATHS_DATA"/dashboards
 # COPY d.yaml "$GF_PATHS_PROVISIONING"/datasources
 COPY ./run.sh /run.sh
 
+ENV TELEGRAF_VERSION 1.19.3
+ADD https://dl.influxdata.com/telegraf/releases/telegraf-${TELEGRAF_VERSION}_static_linux_amd64.tar.gz .
+RUN mkdir -p /usr/src /etc/telegraf && \
+    tar -C /usr/src -xzf telegraf-${TELEGRAF_VERSION}_static_linux_amd64.tar.gz && \
+    mv /usr/src/telegraf*/etc/telegraf/telegraf.conf /etc/telegraf/ && \
+    mkdir /etc/telegraf/telegraf.d && \
+    cp -a /usr/src/telegraf*/usr/bin/telegraf /usr/bin/ && \
+    rm -rf *.tar.gz* /usr/src
+
+RUN telegraf --input-filter cpu:mem:net --output-filter influxdb config > /etc/telegraf/telegraf.conf; \
+	sed -i 's*\# urls = \["http://127.0.0.1:8086"\]*urls = ["http://${INFLUX_URL}:8086"]*g' /etc/telegraf/telegraf.conf
+
 EXPOSE 3000
 
 CMD ["/run.sh"]

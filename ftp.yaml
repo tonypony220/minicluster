@@ -1,23 +1,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
+  name: ftp
   annotations:
     metallb.universe.tf/address-pool: default # this is name of config in metallb
     metallb.universe.tf/allow-shared-ip: "web-server-svc" # https://metallb.universe.tf/usage/#ip-address-sharing
 spec:
   selector:
-    app: nginx
+    app: ftp
   ports:
-  - protocol: "TCP"
-    port: 2001
-    targetPort: 80
-    name: http
-    # nodePort: 30099
-  - protocol: "TCP"
-    port: 2002
-    targetPort: 443
-    name: https
+  - protocol: TCP
+    port: 21
+    targetPort: 21
+    # name: https
     # nodePort: 30099
   externalTrafficPolicy: Cluster # this is default so not spec in other pods
   type: LoadBalancer
@@ -27,29 +22,26 @@ spec:
 apiVersion: apps/v1
 kind: Deployment #StatefulSet #
 metadata:
-  name: nginx
+  name: ftp
   labels:
-    app: nginx
+    app: ftp
 spec:
   replicas: 1
-  # serviceName: "nginx" # for statefull
+  # serviceName: "ftp" # for statefull
   selector:
     matchLabels:
-      app: nginx
+      app: ftp
   template:
     metadata:
       labels:
-        app: nginx
+        app: ftp
     spec:
       containers:
-      - name: nginx
-        image: img_nginx #nginx:alpine
+      - name: ftp
+        image: img_ftp #ftp:alpine
         imagePullPolicy: Never #IfNotPresent
         env:
         - name: INFLUX_URL
           value: influx
-        - name: EXTERNAL_IP
-          value: $EXTERNAL_IP
         ports:
-        - containerPort: 80
-        - containerPort: 443
+        - containerPort: 21

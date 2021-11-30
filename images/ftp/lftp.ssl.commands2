@@ -1,0 +1,8 @@
+user one 1234
+set ftp:ssl-force on
+set ssl:verify-certificate off
+set ftp:use-feat off
+set ftp:ssl-protect-data on
+open ftps://localhost:8083
+
+

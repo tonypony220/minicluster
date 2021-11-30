@@ -8,7 +8,15 @@ rmp:
 b: 
 	docker build -t ${img} .
 run:
-	docker run -p 8083:21 -dt -e INFLUX_URL=127.0.0.1:8086 ${img} # PMA_HOST=localhost
+	docker run -dt 				  \
+	 -p 8083:21 				  \
+	 -e INFLUX_URL=127.0.0.1:8086 \
+     -e USERS="one|1234" 		  \
+     -e ADDRESS=localhost  \
+	 ${img} # PMA_HOST=localhost
+
+     # -p 21000-21010:21000-21010   \
+	 #
 ex: 
 	docker exec -it $$(docker ps | grep ${img} | cut -c1-12) /bin/sh
 re: del b run ex

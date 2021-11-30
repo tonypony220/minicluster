@@ -3,9 +3,8 @@
 #Remove all ftp users
 grep '/ftp/' /etc/passwd | cut -d':' -f1 | xargs -n1 deluser
 
-openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem -subj '/CN=localhost'
+openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem -subj '/CN=ftp.site.domain'
 
-# openssl req -x509 -newkey rsa:4096 -nodes -keyout localhost.key -out localhost.crt -days 365 -subj '/CN=localhost'
 
 #Create users
 #USERS='name1|password1|[folder1][|uid1] name2|password2|[folder2][|uid2]'
@@ -38,6 +37,7 @@ for i in $USERS ; do
 
   echo -e "$PASS\n$PASS" | adduser -h $FOLDER -s /sbin/nologin $UID_OPT $NAME
   mkdir p $FOLDER
+  echo hello | tee $FOLDER/hello.txt
   chown $NAME:$NAME $FOLDER
   unset NAME PASS FOLDER UID
 done

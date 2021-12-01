@@ -1,7 +1,7 @@
 FROM alpine:3.14
 # https://github.com/delfer/docker-alpine-ftp-server
 # https://mikestechblog.com/vsftpd-refusing-to-run-with-writable-root-inside-chroot/
-RUN apk --no-cache add vsftpd openssl vim lftp su-exec
+RUN apk --no-cache add vsftpd openssl # vim lftp su-exec
 #SSL_connect: sslv3 alert handshake failure
 
 COPY start_vsftpd.sh /bin/start_vsftpd.sh

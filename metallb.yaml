@@ -463,7 +463,8 @@ data:
     - name: default
       protocol: layer2
       addresses:
-      - 192.168.144.0/20
+      - 192.168.2.1/32
+      # - 127.0.0.1/32
       # - 192.168.1.240-192.168.1.250
 # ---
 # apiVersion: v1

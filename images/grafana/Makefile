@@ -14,5 +14,5 @@ runi:
 ex: 
 	docker exec -it $$(docker ps | grep ${img} | cut -c1-12) /bin/sh
 re: del b run ex
-re: del b runi
+reb: del b run
 

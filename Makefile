@@ -39,6 +39,10 @@ cl:
 	docker rmi -f $$(docker images --filter "dangling=true" -q) # deleting all images with <none> tag
 cls: 
 	kubectl get storageclass
+mlb: # reloads metallb
+	# https://github.com/metallb/metallb/issues/348
+	kubectl delete po -n metallb-system --all
+	kubectl apply -f metallb.yaml
 
 #: inspecting health of process 
 # docker inspect --format='{{json .State.Health}}' container_name

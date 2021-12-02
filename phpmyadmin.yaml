@@ -53,7 +53,7 @@ spec:
               name: mysql-pass
               key: password
         - name: PMA_HOST 
-          value: wordpress-mysql
+          value: mysql
           # valueFrom: 
           #   configMapKeyRef:
           #     name: pma-configmap

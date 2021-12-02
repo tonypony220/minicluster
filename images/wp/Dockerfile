@@ -1,9 +1,10 @@
-FROM alpine:3.14
+FROM alpine:3.12
+# !! nslookup (github) not working 
 
 
-RUN apk update && \
-    apk add nginx curl && \
-    # apk add php7-fpm && \
+RUN apk update && 		   \
+    apk add nginx curl mysql-client &&  \
+    # apk add php7-fpm &&  \
     # apk add php7-mysqli; \
     apk add gnupg nginx php7-fpm php7-common php7-iconv php7-json php7-gd \
     php7-curl php7-xml php7-mysqli php7-imap php7-pdo php7-pdo_mysql \
@@ -33,6 +34,10 @@ ENV WORDPRESS_DB_USER root
 
 RUN tar -xf latest.tar.gz -C .; \
 	rm latest.tar.gz;
+
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+	chmod +x wp-cli.phar && \
+	mv wp-cli.phar /usr/local/bin/wp-cli
 
 ADD nginx.conf /etc/nginx/http.d/default.conf
 ADD start.sh .

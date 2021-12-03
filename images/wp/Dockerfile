@@ -1,21 +1,23 @@
-FROM alpine:3.12
-# !! nslookup (github) not working 
+FROM alpine:3.12 
+# on alpine 3.14 !! nslookup (github) not working 
 
 
-RUN apk update && 		   \
-    apk add nginx curl mysql-client &&  \
-    # apk add php7-fpm &&  \
-    # apk add php7-mysqli; \
-    apk add gnupg nginx php7-fpm php7-common php7-iconv php7-json php7-gd \
-    php7-curl php7-xml php7-mysqli php7-imap php7-pdo php7-pdo_mysql \
-    php7-soap php7-xmlrpc php7-posix php7-mcrypt php7-gettext php7-ldap \
-    php7-ctype php7-dom php7-session php7-mbstring \
-	busybox-extras;  # telnet install
-    # mkdir /run/nginx;
+RUN apk update && 		   													   \
+    apk add nginx curl mysql-client &&  									   \
+    # apk add php7-fpm &&  													   \
+    # apk add php7-mysqli; 													   \
+    # installing for WP-CLI  												   \
+    apk add gnupg php7 php7-phar php7-json php7-mbstring php7-bz2 php7-mysqli  \ 
+    # installing for   		    											   \
+	php7-fpm php7-common php7-iconv php7-json php7-gd 	   					   \
+    php7-curl php7-xml php7-mysqli php7-imap php7-pdo php7-pdo_mysql 		   \
+    php7-soap php7-xmlrpc php7-posix php7-mcrypt php7-gettext php7-ldap 	   \
+    php7-ctype php7-dom php7-session php7-mbstring 							   \
+	busybox-extras;  # telnet install 										   
 
 ENV TELEGRAF_VERSION 1.19.3
 ADD https://dl.influxdata.com/telegraf/releases/telegraf-${TELEGRAF_VERSION}_static_linux_amd64.tar.gz .
-RUN mkdir -p /usr/src /etc/telegraf && \
+RUN mkdir -p /usr/src /etc/telegraf /run/nginx && 								   \
     tar -C /usr/src -xzf telegraf-${TELEGRAF_VERSION}_static_linux_amd64.tar.gz && \
     mv /usr/src/telegraf*/etc/telegraf/telegraf.conf /etc/telegraf/ && \
     mkdir /etc/telegraf/telegraf.d && \
@@ -29,7 +31,7 @@ WORKDIR /var/www/html
 
 ADD http://wordpress.org/latest.tar.gz . 
     
-# ADD index.html .
+ADD index.html .
 ENV WORDPRESS_DB_USER root
 
 RUN tar -xf latest.tar.gz -C .; \
@@ -37,7 +39,8 @@ RUN tar -xf latest.tar.gz -C .; \
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
 	chmod +x wp-cli.phar && \
-	mv wp-cli.phar /usr/local/bin/wp-cli
+	mv wp-cli.phar /usr/bin/wp
+	#wp core install --url=""  --title=mysite --admin_user=bob --admin_email=admin@ya.com
 
 ADD nginx.conf /etc/nginx/http.d/default.conf
 ADD start.sh .

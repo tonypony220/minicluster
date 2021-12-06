@@ -31,6 +31,7 @@ apply:
 	kubectl get configmap kube-proxy -n kube-system -o yaml | \
 	sed -e "s/strictARP: false/strictARP: true/" | \
 	kubectl apply -f - -n kube-system
+	kubectl apply -f dashboard_config.yaml
 
 	# kubectl get services wordpress --output jsonpath='{.status.loadBalancer.ingress[0].ip}'
 
@@ -44,6 +45,11 @@ mlb: # reloads metallb
 	kubectl delete po -n metallb-system --all
 	kubectl apply -f metallb.yaml
 
+dash: 
+	echo "http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login" 
+	kubectl -n kubernetes-dashboard get secret $$(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
+	echo 
+	kubectl proxy
 #: inspecting health of process 
 # docker inspect --format='{{json .State.Health}}' container_name
 

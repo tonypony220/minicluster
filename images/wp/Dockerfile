@@ -1,7 +1,6 @@
 FROM alpine:3.12 
 # on alpine 3.14 !! nslookup (github) not working 
 
-
 RUN apk update && 		   													   \
     apk add nginx curl mysql-client &&  									   \
     # apk add php7-fpm &&  													   \
@@ -40,9 +39,13 @@ RUN tar -xf latest.tar.gz -C .; \
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
 	chmod +x wp-cli.phar && \
 	mv wp-cli.phar /usr/bin/wp
-	#wp core install --url=""  --title=mysite --admin_user=bob --admin_email=admin@ya.com
+	# cd wordpress && \
+	# wp core install --url=localhost:5050 --title=mysite --admin_user=bob --admin_password=1234 --admin_email=admin@ya.com --allow-root && \
+	# wp user create hw h@m.com --allow-root && \
+	# wp user create mob mob@m.com --allow-root
+	#wp core install --url=localhost:5050 --title=mysite --admin_user=bob --admin_password=1234 --admin_email=admin@ya.com
 
-ADD nginx.conf /etc/nginx/http.d/default.conf
+ADD nginx.conf /etc/nginx/conf.d/default.conf
 ADD start.sh .
 
 EXPOSE 80

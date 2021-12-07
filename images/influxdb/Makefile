@@ -6,6 +6,7 @@ del:
 rmp: 
 	-docker rm -f $$(docker ps | grep ${img} | cut -c1-12)
 b: 
+	-docker rmi $$(docker images | grep ${img} | tr -s " " | cut -d' ' -f3) 
 	docker build --progress=plain -t ${img} .
 run:
 	docker run -p 8086:8086 -dt 	 			   \

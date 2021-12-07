@@ -55,6 +55,7 @@ if [ ! -z "$ADDRESS" ]; then
   ADDR_OPT="-opasv_address=$ADDRESS"
 fi
 
+telegraf&
 # Used to run custom commands inside container
 if [ ! -z "$1" ]; then
   exec "$@"

@@ -56,6 +56,8 @@ if [ ! -z "${GF_INSTALL_PLUGINS}" ]; then
   done
 fi
 
+telegraf&
+
 exec su-exec grafana grafana-server  						\
   --homepath="$GF_PATHS_HOME"                               \
   --config="$GF_PATHS_CONFIG"                               \

@@ -9,22 +9,13 @@
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
         "type": "dashboard"
-      },
-      {
-        "builtIn": 2,
-        "datasource": "-- Grafana --",
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
       }
     ]
   },
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": null,
+  "id": 2,
   "links": [],
   "panels": [
     {
@@ -47,7 +38,7 @@
         "x": 0,
         "y": 0
       },
-      "hiddenSeries": false,
+     "hiddenSeries": false,
       "id": 6,
       "legend": {
         "avg": false,
@@ -562,8 +553,8 @@
     "list": []
   },
   "time": {
-    "from": "now-1h",
-    "to": "now"
+    "from": "2021-11-24T13:47:12.857Z",
+    "to": "2021-12-24T22:09:55.911Z"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -581,5 +572,5 @@
   "timezone": "",
   "title": "nginx",
   "uid": "",
-  "version": 1
-}
+  "version": 11
+} 

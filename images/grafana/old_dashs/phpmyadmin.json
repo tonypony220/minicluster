@@ -9,22 +9,13 @@
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
         "type": "dashboard"
-      },
-      {
-        "builtIn": 2,
-        "datasource": "-- Grafana --",
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
       }
     ]
   },
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": null,
+  "id": 2,
   "links": [],
   "panels": [
     {
@@ -47,7 +38,7 @@
         "x": 0,
         "y": 0
       },
-      "hiddenSeries": false,
+     "hiddenSeries": false,
       "id": 6,
       "legend": {
         "avg": false,
@@ -99,7 +90,7 @@
           "measurement": "net",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"bytes_recv\") AS \"bytes_recv\" FROM \"net\" WHERE host =~ /nginx*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
+          "query": "SELECT mean(\"bytes_recv\") AS \"bytes_recv\" FROM \"net\" WHERE host =~ /pma*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -127,7 +118,7 @@
             {
               "key": "host",
               "operator": "=",
-              "value": "nginx-69d97fc685-6l7sj"
+              "value": "pma-69d97fc685-6l7sj"
             }
           ]
         },
@@ -157,7 +148,7 @@
           "measurement": "net",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"bytes_sent\") AS \"bytes_sent\"  FROM \"net\" WHERE host =~ /nginx*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
+          "query": "SELECT mean(\"bytes_sent\") AS \"bytes_sent\"  FROM \"net\" WHERE host =~ /pma*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -295,7 +286,7 @@
           "measurement": "mem",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"active\") AS \"active\" FROM \"mem\" WHERE host =~ /nginx*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
+          "query": "SELECT mean(\"active\") AS \"active\" FROM \"mem\" WHERE host =~ /pma*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -317,7 +308,7 @@
             {
               "key": "host",
               "operator": "=",
-              "value": "nginx-69d97fc685-4d4m4"
+              "value": "pma-69d97fc685-4d4m4"
             }
           ]
         }
@@ -434,7 +425,7 @@
           "measurement": "cpu",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"usage_system\") AS \"system\" FROM \"cpu\" WHERE host =~ /nginx*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
+          "query": "SELECT mean(\"usage_system\") AS \"system\" FROM \"cpu\" WHERE host =~ /pma*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -456,7 +447,7 @@
             {
               "key": "host",
               "operator": "=",
-              "value": "nginx-69d97fc685-4d4m4"
+              "value": "pma-69d97fc685-4d4m4"
             }
           ]
         },
@@ -485,7 +476,7 @@
           "measurement": "cpu",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"usage_user\") AS \"user\" FROM \"cpu\" WHERE host =~ /nginx*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
+          "query": "SELECT mean(\"usage_user\") AS \"user\" FROM \"cpu\" WHERE host =~ /pma*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -562,8 +553,8 @@
     "list": []
   },
   "time": {
-    "from": "now-1h",
-    "to": "now"
+    "from": "2021-11-24T13:47:12.857Z",
+    "to": "2021-11-24T22:09:55.911Z"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -579,7 +570,7 @@
     ]
   },
   "timezone": "",
-  "title": "nginx",
+  "title": "pma",
   "uid": "",
-  "version": 1
-}
+  "version": 11
+} 

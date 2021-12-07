@@ -24,7 +24,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": null,
+  "id": 1,
   "links": [],
   "panels": [
     {
@@ -33,7 +33,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "influxdb",
-      "fieldConfig": {
+      "fieldonfig": {
         "defaults": {
           "custom": {}
         },
@@ -99,7 +99,7 @@
           "measurement": "net",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"bytes_recv\") AS \"bytes_recv\" FROM \"net\" WHERE host =~ /nginx*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
+          "query": "SELECT mean(\"bytes_recv\") AS \"bytes_recv\" FROM \"net\" WHERE host =~ /pma*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -127,7 +127,7 @@
             {
               "key": "host",
               "operator": "=",
-              "value": "nginx-69d97fc685-6l7sj"
+              "value": "pma-69d97fc685-6l7sj"
             }
           ]
         },
@@ -157,7 +157,7 @@
           "measurement": "net",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"bytes_sent\") AS \"bytes_sent\"  FROM \"net\" WHERE host =~ /nginx*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
+          "query": "SELECT mean(\"bytes_sent\") AS \"bytes_sent\"  FROM \"net\" WHERE host =~ /pma*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -295,7 +295,7 @@
           "measurement": "mem",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"active\") AS \"active\" FROM \"mem\" WHERE host =~ /nginx*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
+          "query": "SELECT mean(\"active\") AS \"active\" FROM \"mem\" WHERE host =~ /pma*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -317,7 +317,7 @@
             {
               "key": "host",
               "operator": "=",
-              "value": "nginx-69d97fc685-4d4m4"
+              "value": "pma-69d97fc685-4d4m4"
             }
           ]
         }
@@ -434,7 +434,7 @@
           "measurement": "cpu",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"usage_system\") AS \"system\" FROM \"cpu\" WHERE host =~ /nginx*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
+          "query": "SELECT mean(\"usage_system\") AS \"system\" FROM \"cpu\" WHERE host =~ /pma*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -456,7 +456,7 @@
             {
               "key": "host",
               "operator": "=",
-              "value": "nginx-69d97fc685-4d4m4"
+              "value": "pma-69d97fc685-4d4m4"
             }
           ]
         },
@@ -485,7 +485,7 @@
           "measurement": "cpu",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"usage_user\") AS \"user\" FROM \"cpu\" WHERE host =~ /nginx*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
+          "query": "SELECT mean(\"usage_user\") AS \"user\" FROM \"cpu\" WHERE host =~ /pma*/ AND $timeFilter GROUP BY time(10s), \"host\" fill(null)",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -579,7 +579,7 @@
     ]
   },
   "timezone": "",
-  "title": "nginx",
-  "uid": "",
-  "version": 1
+  "title": "phpmyadmin",
+  "uid": "VnWmq5hnk",
+  "version": 59
 }

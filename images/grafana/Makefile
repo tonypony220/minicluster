@@ -6,6 +6,7 @@ del:
 rmp: 
 	-docker rm -f $$(docker ps | grep ${img} | cut -c1-12)
 b: 
+	-docker rmi $$(docker images | grep ${img} | tr -s " " | cut -d' ' -f3) 
 	docker build -t ${img} .
 run:
 	docker run -p 80:3000 -dt -e INFLUX_URL=127.0.0.1:8086 ${img} # PMA_HOST=localhost

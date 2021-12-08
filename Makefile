@@ -5,14 +5,14 @@
 #
 # EACH TERMINAL USED WITH MINIKUBE SHOULD ALWAYS BE UPTODATE DOCKER-ENV !!!!!!!!!!!!!!!! fuck i spent on it 3 days
 all:
-	eval $$(minikube docker-env)	
-	cd ~/coding/services/images/mysql 	 && $(MAKE) b
-	cd ~/coding/services/images/nginx 	 && $(MAKE) b
-	cd ~/coding/services/images/wp    	 && $(MAKE) b
-	cd ~/coding/services/images/pma/orig && $(MAKE) b
-	cd ~/coding/services/images/grafana  && $(MAKE) b
-	cd ~/coding/services/images/influxdb && $(MAKE) b
-	cd ~/coding/services/images/ftp  	 && $(MAKE) b
+	-eval $$(minikube docker-env)	
+	cd images/mysql 	 && $(MAKE) b
+	cd images/nginx 	 && $(MAKE) b
+	cd images/wp    	 && $(MAKE) b
+	cd images/pma/orig   && $(MAKE) b
+	cd images/grafana    && $(MAKE) b
+	cd images/influxdb   && $(MAKE) b
+	cd images/ftp  	     && $(MAKE) b
 
 apply: 
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
@@ -29,9 +29,9 @@ apply:
 	# https://grafana.com/docs/grafana/latest/administration/provisioning/
 	kubectl apply -f grafana.yaml
 	# see what changes would be made, returns nonzero returncode if different
-	kubectl get configmap kube-proxy -n kube-system -o yaml | \
-	sed -e "s/strictARP: false/strictARP: true/" | \
-	kubectl diff -f - -n kube-system
+#	kubectl get configmap kube-proxy -n kube-system -o yaml | \
+#	sed -e "s/strictARP: false/strictARP: true/" | \
+#	kubectl diff -f - -n kube-system
 	# actually apply the changes, returns nonzero returncode on errors only
 	kubectl get configmap kube-proxy -n kube-system -o yaml | \
 	sed -e "s/strictARP: false/strictARP: true/" | \

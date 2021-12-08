@@ -75,4 +75,6 @@ echo "Starting all process"
 telegraf&
 exec /usr/bin/mysqld --user=mysql --console
 # tail -f /dev/null
+wait -n 
+
 

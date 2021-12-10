@@ -69,7 +69,9 @@ spec:
             # Likewise 2000m would be two full cores, which can also be specified as 2 or 2.0.
             # Let’s create a pod with just a request for cpu and see how this is configured at the docker and cgroup levels
 
-        # env:
+        env:
+        - name: INFLUX_URL
+          value: influx
         # - name: WORDPRESS_DB_HOST
         #   value: wordpress-mysql
         # - name: WORDPRESS_DB_PASSWORD

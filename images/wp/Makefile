@@ -6,6 +6,9 @@ del:
 	# -docker rmi $$(docker images | grep none | cut -c23-37) 
 b: 
 	docker build -t ${img} .
+reb:
+	-docker rmi $$(docker images | grep ${img} | tr -s " " | cut -d' ' -f3) 
+	docker build -t ${img} .
 run:
 	docker run -p 8082:80 -dt ${img} # PMA_HOST=localhost
 ex: 

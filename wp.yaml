@@ -57,6 +57,8 @@ spec:
         env:
         - name: INFLUX_URL
           value: influx
+        - name: EXTERNAL
+          value: 45.138.25.104
         - name: WORDPRESS_DB_HOST
           value: mysql
         - name: WORDPRESS_DB_PASSWORD

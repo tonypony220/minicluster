@@ -9,7 +9,7 @@ sed s/localhost/${WORDPRESS_DB_HOST}/ > wp-config.php
 # echo "<?php phpinfo() ?>" > index.php; \
 # chmod -R 755 .;
 
-wp core install --url=localhost:5050 --title=mysite --admin_user=bob --admin_password=1234 --admin_email=admin@ya.com --allow-root
+wp core install --url=$EXTERNAL:5050 --title=mysite --admin_user=bob --admin_password=1234 --admin_email=admin@ya.com --allow-root
 wp user create hw h@m.com --allow-root
 wp user create mob mob@m.com --allow-root
 

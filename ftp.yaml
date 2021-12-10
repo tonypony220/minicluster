@@ -10,7 +10,7 @@ spec:
     app: ftp
   ports:
   - protocol: TCP
-    port: 8083
+    port: 21
     targetPort: 21
     name: ftp-0
   - protocol: TCP

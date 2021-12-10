@@ -7,6 +7,7 @@ metadata:
     metallb.universe.tf/allow-shared-ip: "web-server-svc" # https://metallb.universe.tf/usage/#ip-address-sharing
   namespace: kubernetes-dashboard
 ---
+# https://dev.to/drazisil/bare-metal-load-balancer-on-kubernetes-with-metallb-3h2k
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:

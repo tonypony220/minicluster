@@ -58,6 +58,9 @@ dash: # to open dash
 #: inspecting health of process 
 # docker inspect --format='{{json .State.Health}}' container_name
 
+clean:
+	minikube delete
+	docker rmi -f $(docker images -aq)
 
 
 

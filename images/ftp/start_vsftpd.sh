@@ -58,7 +58,10 @@ fi
 telegraf&
 # Used to run custom commands inside container
 if [ ! -z "$1" ]; then
-  exec "$@"
+  exec "$@" &
 else
-  exec /usr/sbin/vsftpd -opasv_min_port=$MIN_PORT -opasv_max_port=$MAX_PORT $ADDR_OPT /etc/vsftpd/vsftpd.conf
+  #exec /usr/sbin/vsftpd -opasv_min_port=$MIN_PORT -opasv_max_port=$MAX_PORT $ADDR_OPT /etc/vsftpd/vsftpd.conf & 
+  vsftpd -opasv_min_port=$MIN_PORT -opasv_max_port=$MAX_PORT $ADDR_OPT /etc/vsftpd/vsftpd.conf &
 fi
+
+wait -n

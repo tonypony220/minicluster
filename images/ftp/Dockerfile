@@ -24,6 +24,10 @@ RUN mkdir -p /usr/src /etc/telegraf && \
 RUN telegraf --input-filter cpu:mem:net --output-filter influxdb config > /etc/telegraf/telegraf.conf; \
 	sed -i 's*\# urls = \["http://127.0.0.1:8086"\]*urls = ["http://${INFLUX_URL}:8086"]*g' /etc/telegraf/telegraf.conf
 
-STOPSIGNAL SIGKILL
+#STOPSIGNAL SIGKILL
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s CMD exit 1
 
 ENTRYPOINT ["/bin/start_vsftpd.sh"]
+
+#ftp-578dcf968f-rhghb

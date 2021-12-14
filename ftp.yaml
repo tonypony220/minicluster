@@ -13,6 +13,10 @@ spec:
     port: 21
     targetPort: 21
     name: ftp-0
+  - port: 20
+    targetPort: 20
+    protocol: TCP
+    name: ftp20
   - protocol: TCP
     port: 10000
     # targetPort: 21
@@ -57,3 +61,9 @@ spec:
         - containerPort: 21
         - containerPort: 10000
         - containerPort: 10001
+        livenessProbe:
+          tcpSocket:
+            port: 21
+          failureThreshold: 2
+          initialDelaySeconds: 5
+          periodSeconds: 20

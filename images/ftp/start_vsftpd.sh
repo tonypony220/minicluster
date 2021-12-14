@@ -44,11 +44,11 @@ done
 
 
 if [ -z "$MIN_PORT" ]; then
-  MIN_PORT=21000
+  MIN_PORT=10000
 fi
 
 if [ -z "$MAX_PORT" ]; then
-  MAX_PORT=21010
+  MAX_PORT=10001
 fi
 
 if [ ! -z "$ADDRESS" ]; then
@@ -56,12 +56,12 @@ if [ ! -z "$ADDRESS" ]; then
 fi
 
 telegraf&
+vsftpd /etc/vsftpd/vsftpd.conf &
 # Used to run custom commands inside container
-if [ ! -z "$1" ]; then
-  exec "$@" &
-else
-  #exec /usr/sbin/vsftpd -opasv_min_port=$MIN_PORT -opasv_max_port=$MAX_PORT $ADDR_OPT /etc/vsftpd/vsftpd.conf & 
-  vsftpd -opasv_min_port=$MIN_PORT -opasv_max_port=$MAX_PORT $ADDR_OPT /etc/vsftpd/vsftpd.conf &
-fi
-
+#if [ ! -z "$1" ]; then
+#  exec "$@" &
+#else
+#  exec /usr/sbin/vsftpd -opasv_min_port=$MIN_PORT -opasv_max_port=$MAX_PORT $ADDR_OPT /etc/vsftpd/vsftpd.conf
+#  #vsftpd -opasv_min_port=$MIN_PORT -opasv_max_port=$MAX_PORT $ADDR_OPT /etc/vsftpd/vsftpd.conf &
+#fi
 wait -n

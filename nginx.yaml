@@ -53,3 +53,10 @@ spec:
         ports:
         - containerPort: 80
         - containerPort: 443
+        livenessProbe:
+          httpGet:
+            # path: / this is default
+            port: http
+          failureThreshold: 2
+          initialDelaySeconds: 5
+          periodSeconds: 10

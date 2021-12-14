@@ -20,3 +20,22 @@ subjects:
 - kind: ServiceAccount
   name: admin-user
   namespace: kubernetes-dashboard
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.universe.tf/address-pool: default # this is name of config in metallb
+    metallb.universe.tf/allow-shared-ip: "web-server-svc" # https://metallb.universe.tf/usage/#ip-address-sharing
+  labels:
+    app.kubernetes.io/name: load-balancer-dashboard
+  name: dashboard-service
+  namespace: kubernetes-dashboard
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8443
+  selector:
+    k8s-app: kubernetes-dashboard
+  type: LoadBalancer

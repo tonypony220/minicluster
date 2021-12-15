@@ -13,6 +13,7 @@ spec:
     - protocol: TCP
       port: 5000
       # nodePort: 30000
+      name: http
       targetPort: 80
   selector:
     app: wordpress
@@ -61,3 +62,10 @@ spec:
         ports:
         - containerPort: 80
           name: pmaa
+        livenessProbe:
+          httpGet:
+            # path: / this is default
+            port: http
+          failureThreshold: 2
+          initialDelaySeconds: 5
+          periodSeconds: 10

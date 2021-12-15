@@ -12,6 +12,7 @@ spec:
     - protocol: TCP
       port: 5050
       targetPort: 80
+      name: http
       # nodePort: 30033
   selector:
     app: wordpress
@@ -76,6 +77,13 @@ spec:
         ports:
         - containerPort: 80
           name: wordpress
+        livenessProbe:
+          httpGet:
+            # path: / this is default
+            port: http
+          failureThreshold: 2
+          initialDelaySeconds: 5
+          periodSeconds: 10
         # volumeMounts:
         # - name: wordpress-persistent-storage
         #   mountPath: /var/www/html

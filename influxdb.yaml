@@ -52,6 +52,13 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/influxdb
           name: var-lib-influxdb
+        livenessProbe:
+          httpGet:
+            # path: / this is default
+            port: port
+          failureThreshold: 2
+          initialDelaySeconds: 5
+          periodSeconds: 10
 ---
 apiVersion: v1
 kind: Service
@@ -64,6 +71,7 @@ spec:
     - protocol: TCP
       port: 8086
       targetPort: 8086 # can't be different
+      name: port
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

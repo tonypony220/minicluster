@@ -12,6 +12,7 @@ spec:
     - protocol: TCP
       port: 3000
       targetPort: 3000
+      name: port
       # nodePort: 30033
   selector:
     app: grafana
@@ -96,3 +97,9 @@ spec:
       # - name: wordpress-persistent-storage
         # persistentVolumeClaim:
         #   claimName: wp-pv-claim
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: port
+          failureThreshold: 2
+          initialDelaySeconds: 20

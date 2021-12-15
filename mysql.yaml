@@ -104,6 +104,17 @@ spec:
               key: db_pass
         - name: INFLUX_URL
           value: influx
+        livenessProbe:
+          exec:
+            # path: / this is default
+            command: 
+            - mysqladmin
+            - ping
+            - -h 
+            - localhost
+          failureThreshold: 2
+          initialDelaySeconds: 5
+          periodSeconds: 10
         ports:
         - containerPort: 3306
           name: mysql
@@ -114,3 +125,4 @@ spec:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
           claimName: mysql-pv-claim
+

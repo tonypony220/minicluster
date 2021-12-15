@@ -37,7 +37,8 @@ spec:
         image: img_influxdb
         imagePullPolicy: IfNotPresent 
         ports:
-        - containerPort: 8086  # exposed port of image gets from docker hub of image
+        - containerPort: 8086  # exposed port of image gets from docker hub of image 
+          name: port
         env:
         - name: INFLUXDB_ADMIN_PASSWORD
           valueFrom:
@@ -54,7 +55,7 @@ spec:
           name: var-lib-influxdb
         livenessProbe:
           httpGet:
-            # path: / this is default
+            path: /ping # this is default
             port: port
           failureThreshold: 2
           initialDelaySeconds: 5

@@ -11,7 +11,7 @@ spec:
   ports:
     - protocol: TCP
       port: 5050
-      targetPort: 80
+      #targetPort: 80
       name: http
       # nodePort: 30033
   selector:
@@ -75,12 +75,12 @@ spec:
         - name: WORDPRESS_DB_USER
           value: root
         ports:
-        - containerPort: 80
-          name: wordpress
+        - containerPort: 5050
+          name: wp #ordpress
         livenessProbe:
           httpGet:
             # path: / this is default
-            port: http
+            port: wp #ordpress
           failureThreshold: 2
           initialDelaySeconds: 5
           periodSeconds: 10
@@ -89,5 +89,3 @@ spec:
         #   mountPath: /var/www/html
       # volumes:
       # - name: wordpress-persistent-storage
-        # persistentVolumeClaim:
-        #   claimName: wp-pv-claim

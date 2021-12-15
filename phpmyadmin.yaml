@@ -64,8 +64,8 @@ spec:
           name: pmaa
         livenessProbe:
           httpGet:
-            # path: / this is default
-            port: http
+            path: /health #this is default
+            port: pmaa
           failureThreshold: 2
           initialDelaySeconds: 5
           periodSeconds: 10
